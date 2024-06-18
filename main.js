@@ -30,14 +30,31 @@ const printStacks = () => {
 }
 
 // Next, what do you think this function should do?
-const movePiece = () => {
-  // Your code here
-
+const movePiece = (startStack, endStack) => {
+  
+  // Take the rightmost piece from the startStack
+  let lastStartStack = stacks[startStack].pop() // returns last element AND changes stacks
+  
+  // Place it on the endStack
+  stacks[endStack].push(lastStartStack)
 }
 
 // Before you move, should you check if the move it actually allowed? Should 3 be able to be stacked on 2
-const isLegal = () => {
+const isLegal = (startStack, endStack) => {
   // Your code here
+
+  let endStackArray = stacks[endStack] // ending array 
+  let lastEndStack = endStackArray[endStackArray.length - 1]  // last piece in the ending array
+  
+  let startStackArray = stacks[startStack] // starting array 
+  let lastStartStack = startStackArray[startStackArray.length - 1] // last piece in the starting array
+
+  if (lastEndStack > lastStartStack) {
+    return true
+  } else {
+    return false
+  }
+
 
 }
 
@@ -50,6 +67,9 @@ const checkForWin = () => {
 // When is this function called? What should it do with its argument?
 const towersOfHanoi = (startStack, endStack) => {
   // Your code here
+  if (isLegal(startStack, endStack)) {
+    movePiece(startStack, endStack);
+  }
 
 }
 
@@ -58,6 +78,7 @@ const getPrompt = () => {
   rl.question('start stack: ', (startStack) => {
     rl.question('end stack: ', (endStack) => {
       towersOfHanoi(startStack, endStack);
+      checkForWin();
       getPrompt();
     });
   });
