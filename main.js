@@ -29,8 +29,11 @@ const printStacks = () => {
   console.log("c: " + stacks.c);
 }
 
+let endStack;
+let startStack;
+
 // Next, what do you think this function should do?
-const movePiece = (startStack, endStack) => {
+const movePiece = () => {
   
   // Take the rightmost piece from the startStack
   let lastStartStack = stacks[startStack].pop() // returns last element AND changes stacks
@@ -40,16 +43,17 @@ const movePiece = (startStack, endStack) => {
 }
 
 // Before you move, should you check if the move it actually allowed? Should 3 be able to be stacked on 2
-const isLegal = (startStack, endStack) => {
+const isLegal = () => {
   // Your code here
 
-  let endStackArray = stacks[endStack] // ending array 
+  let endStackArray = stacks[endStack]  // ending array 
   let lastEndStack = endStackArray[endStackArray.length - 1]  // last piece in the ending array
   
+
   let startStackArray = stacks[startStack] // starting array 
   let lastStartStack = startStackArray[startStackArray.length - 1] // last piece in the starting array
 
-  if (lastEndStack > lastStartStack) {
+  if (  (lastEndStack > lastStartStack) || stacks[endStack].length == 0 ) { 
     return true
   } else {
     return false
@@ -61,25 +65,40 @@ const isLegal = (startStack, endStack) => {
 // What is a win in Towers of Hanoi? When should this function run?
 const checkForWin = () => {
   // Your code here
+  for (let letter in stacks) {
 
+    if (stacks[letter].length == 4) {
+      console.log("You win!")
+      return true
+    }
+  }
+
+  return false 
 }
 
 // When is this function called? What should it do with its argument?
-const towersOfHanoi = (startStack, endStack) => {
+const towersOfHanoi = (a, b) => {
   // Your code here
-  if (isLegal(startStack, endStack)) {
+
+  startStack = a;
+  endStack = b;
+
+  if (isLegal()) {
     movePiece(startStack, endStack);
+  } else {
+    console.log("Move not legal")
   }
 
 }
 
 const getPrompt = () => {
   printStacks();
-  rl.question('start stack: ', (startStack) => {
-    rl.question('end stack: ', (endStack) => {
-      towersOfHanoi(startStack, endStack);
-      checkForWin();
-      getPrompt();
+  rl.question('start stack: ', (a) => {
+    rl.question('end stack: ', (b) => {
+      towersOfHanoi(a, b);
+      if (!checkForWin()) {
+        getPrompt();
+      }
     });
   });
 }
