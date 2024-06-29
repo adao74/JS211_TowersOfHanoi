@@ -13,6 +13,7 @@ const selectRow = (row) => {
     pickUpStone(row.id)
   } else {
     dropStone(row.id)
+    checkForWin(currentRow)
   }
 } 
 
@@ -70,5 +71,11 @@ const isLegal = (rowID) => {
   }
 }
 
-// * Remember you can use your logic from 'main.js' to maintain the rules of the game. But how? Follow the flow of data just like falling dominoes.
-
+const checkForWin = (currentRow) => {
+  let row = document.querySelector(`[data-row=${currentRow}]`);  
+  
+  if ( ( currentRow === "top" || currentRow === "middle" ) && (row.childElementCount === 4 )) {
+    window.alert("You win!")
+    window.location.reload(true); // refreshing the window resets the html page
+  }
+}
