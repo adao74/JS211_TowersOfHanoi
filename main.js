@@ -67,7 +67,7 @@ const checkForWin = () => {
   // Your code here
   for (let letter in stacks) {
 
-    if (stacks[letter].length == 4) {
+    if ( (endStack === 'b' || endStack === 'c') && (stacks[letter].length == 4)) {
       console.log("You win!")
       return true
     }
