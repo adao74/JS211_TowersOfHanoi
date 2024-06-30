@@ -79,7 +79,7 @@ const checkForWin = (currentRow) => {
   let row = document.querySelector(`[data-row=${currentRow}]`);  
   
   if ( ( currentRow === "top" || currentRow === "middle" ) && (row.childElementCount === 4 )) {
-    window.alert("You win!")
+    window.alert(`You won in ${numMoves} moves!`)
     window.location.reload(true); // refreshing the window resets everything (html page, numMoves)
   }
 }
