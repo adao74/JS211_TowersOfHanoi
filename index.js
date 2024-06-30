@@ -1,8 +1,12 @@
+let numMoves = 0;
 let stone = null;
 let stoneID;
 
 // this function is called when a row is clicked. 
 const selectRow = (row) => {
+  numMoves++;
+  console.log(`Number of moves: ${numMoves}`)
+
   const currentRow = row.getAttribute("data-row")
 
   console.log("Yay, we clicked an item", row)
@@ -19,12 +23,12 @@ const selectRow = (row) => {
 
 // this function can be called to get the last stone in the stack
 const pickUpStone = (rowID) => {
-  console.log("picking up stone!!")
-
+  
   const selectedRow = document.getElementById(rowID);
 
-  if (selectedRow) {
-    
+  if (selectedRow.lastElementChild) {
+    console.log("picking up stone!!")
+
     // don't use lastChild() b/c that would remove the last node, but you want to remove the last element (there are nodes that aren't elements)
     stone = selectedRow.removeChild(selectedRow.lastElementChild);
     stoneID = parseInt(stone.id)
@@ -34,7 +38,7 @@ const pickUpStone = (rowID) => {
     console.log(stoneID)
 
   } else {
-      console.log('Element with ID ' + rowID + ' not found.');
+      console.log('No stone to pick up. Try again');
   }
 
 }
@@ -76,6 +80,6 @@ const checkForWin = (currentRow) => {
   
   if ( ( currentRow === "top" || currentRow === "middle" ) && (row.childElementCount === 4 )) {
     window.alert("You win!")
-    window.location.reload(true); // refreshing the window resets the html page
+    window.location.reload(true); // refreshing the window resets everything (html page, numMoves)
   }
 }
