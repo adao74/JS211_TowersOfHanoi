@@ -1,41 +1,34 @@
 let numMoves = 0;
 let stone = null;
 let stoneID;
+let savedRow;
 
 // this function is called when a row is clicked. 
 const selectRow = (row) => {
   numMoves++;
   console.log(`Number of moves: ${numMoves}`)
 
-  const currentRow = row.getAttribute("data-row")
-
-  console.log("Yay, we clicked an item", row)
-  console.log("Here is the stone's id: ", row.id)
-  console.log("Here is the stone's data-size: ", currentRow)
+  savedRow = row;
 
   if (!stone) {
-    pickUpStone(row.id)
+    pickUpStone()
   } else {
-    dropStone(row.id)
-    checkForWin(currentRow)
+    dropStone()
+    checkForWin()
   }
 } 
 
 // this function can be called to get the last stone in the stack
-const pickUpStone = (rowID) => {
-  
-  const selectedRow = document.getElementById(rowID);
+const pickUpStone = () => {
 
-  if (selectedRow.lastElementChild) {
-    console.log("picking up stone!!")
+  if (savedRow.lastElementChild) {
+    console.log("Picking up stone!!")
 
     // don't use lastChild() b/c that would remove the last node, but you want to remove the last element (there are nodes that aren't elements)
-    stone = selectedRow.removeChild(selectedRow.lastElementChild);
+    stone = savedRow.removeChild(savedRow.lastElementChild);
     stoneID = parseInt(stone.id)
 
-    console.log(selectedRow)
-    console.log(stone)
-    console.log(stoneID)
+    console.log(`Stone ID is: ${stoneID}`)
 
   } else {
       console.log('No stone to pick up. Try again');
@@ -43,12 +36,11 @@ const pickUpStone = (rowID) => {
 
 }
 
-// Once you figure that out you'll need to figure out if its a legal move...
-const dropStone = (rowID) => {
-  console.log("You are trying to drop the stone!!")
+const dropStone = () => {
+  console.log("Dropping the stone!!")
   
-  if ( isLegal(rowID) ) {
-    document.getElementById(rowID).appendChild(stone)
+  if ( isLegal() ) {
+    savedRow.appendChild(stone)
     stone = null
   } else {
     console.log("Not a legal move. Try again.")
@@ -56,9 +48,9 @@ const dropStone = (rowID) => {
 
 }
 
-const isLegal = (rowID) => {
+const isLegal = () => {
   
-  const stone2 = document.getElementById(rowID).lastElementChild // null if column empty
+  const stone2 = savedRow.lastElementChild // null if column empty
 
   let numOfLast;
 
@@ -75,10 +67,9 @@ const isLegal = (rowID) => {
   }
 }
 
-const checkForWin = (currentRow) => {
-  let row = document.querySelector(`[data-row=${currentRow}]`);  
+const checkForWin = () => {
   
-  if ( ( currentRow === "top" || currentRow === "middle" ) && (row.childElementCount === 4 )) {
+  if ( ( savedRow.getAttribute("data-row") === "top" || savedRow.getAttribute("data-row") === "middle" ) && (savedRow.childElementCount === 4 )) {
     window.alert(`You won in ${numMoves} moves!`)
     window.location.reload(true); // refreshing the window resets everything (html page, numMoves)
   }
