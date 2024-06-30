@@ -29,36 +29,76 @@ const printStacks = () => {
   console.log("c: " + stacks.c);
 }
 
+let endStack;
+let startStack;
+
 // Next, what do you think this function should do?
 const movePiece = () => {
-  // Your code here
-
+  
+  // Take the rightmost piece from the startStack
+  let lastStartStack = stacks[startStack].pop() // returns last element AND changes stacks
+  
+  // Place it on the endStack
+  stacks[endStack].push(lastStartStack)
 }
 
 // Before you move, should you check if the move it actually allowed? Should 3 be able to be stacked on 2
 const isLegal = () => {
   // Your code here
 
+  let endStackArray = stacks[endStack]  // ending array 
+  let lastEndStack = endStackArray[endStackArray.length - 1]  // last piece in the ending array
+  
+
+  let startStackArray = stacks[startStack] // starting array 
+  let lastStartStack = startStackArray[startStackArray.length - 1] // last piece in the starting array
+
+  if (  (lastEndStack > lastStartStack) || stacks[endStack].length == 0 ) { 
+    return true
+  } else {
+    return false
+  }
+
+
 }
 
 // What is a win in Towers of Hanoi? When should this function run?
 const checkForWin = () => {
   // Your code here
+  for (let letter in stacks) {
 
+    if ( (endStack === 'b' || endStack === 'c') && (stacks[letter].length == 4)) {
+      console.log("You win!")
+      return true
+    }
+  }
+
+  return false 
 }
 
 // When is this function called? What should it do with its argument?
-const towersOfHanoi = (startStack, endStack) => {
+const towersOfHanoi = (a, b) => {
   // Your code here
+
+  startStack = a;
+  endStack = b;
+
+  if (isLegal()) {
+    movePiece(startStack, endStack);
+  } else {
+    console.log("Move not legal")
+  }
 
 }
 
 const getPrompt = () => {
   printStacks();
-  rl.question('start stack: ', (startStack) => {
-    rl.question('end stack: ', (endStack) => {
-      towersOfHanoi(startStack, endStack);
-      getPrompt();
+  rl.question('start stack: ', (a) => {
+    rl.question('end stack: ', (b) => {
+      towersOfHanoi(a, b);
+      if (!checkForWin()) {
+        getPrompt();
+      }
     });
   });
 }

@@ -1,3 +1,10 @@
+body {
+  background-image: url("flowers.jpg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: 40% 20%;
+}
+
 [data-row] {
   display: flex;
   justify-content: flex-start;
@@ -37,22 +44,26 @@
 }
 
 [data-color="blue"] {
-  height: 33px;
+  height: 15px;
+  width: 15px;
   background-color: blue;
 }
 
 [data-color="green"] {
-  height: 33px;
+  height: 25px;
+  width: 25px;
   background-color: green;
 }
 
 [data-color="red"] {
-  height: 33px;
+  height: 30px;
+  width: 35px;
   background-color: red;
 }
 
 [data-color="yellow"] {
   height: 33px;
+  width: 45px;
   background-color: yellow;
 }
 
